@@ -3,7 +3,8 @@
     [reagent.core :as r]
     [reagent-fu.components.stateless :as comp-sl]
     [reagent-fu.components.stateful :as comp-sf]
-    [reagent-fu.components.timed :as comp-t]))
+    [reagent-fu.components.timed :as comp-t]
+    [reagent-fu.components.material-ui :as comp-mui]))
 
 (enable-console-print!)
 
@@ -23,5 +24,5 @@
 ; app runner
 (defn ^:export run []
   (r/render
-    [app]
+    [comp-mui/main]
     (.getElementById js/document "app")))
