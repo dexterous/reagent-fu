@@ -1,17 +1,27 @@
 (ns reagent-fu.core
-    (:require ))
+  (:require
+    [reagent.core :as r]
+    [reagent-fu.components.stateless :as comp-sl]
+    [reagent-fu.components.stateful :as comp-sf]
+    [reagent-fu.components.timed :as comp-t]))
 
 (enable-console-print!)
 
-(println "This text is printed from src/reagent-fu/core.cljs. Go ahead and edit it and see reloading in action.")
+(println "This is new!")
 
-;; define your app data so that it doesn't get over-written on reload
+; compound app
+(defn app []
+  (let [cap (r/atom 10)]
+    [:div.awesome
+     [comp-t/clock]
+     [:hr {:width "90%"}]
+     [comp-sf/number-picker cap]
+     [comp-t/timer cap]
+     [:hr {:width "80%"}]
+     [comp-sl/sample-component]]))
 
-(defonce app-state (atom {:text "Hello world!"}))
-
-
-(defn on-js-reload []
-  ;; optionally touch your app-state to force rerendering depending on
-  ;; your application
-  ;; (swap! app-state update-in [:__figwheel_counter] inc)
-)
+; app runner
+(defn ^:export run []
+  (r/render
+    [app]
+    (.getElementById js/document "app")))
