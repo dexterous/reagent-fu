@@ -23,11 +23,12 @@
 (defn rand-data [x]
   (array-map :name        x 
              :open-close  [(+ 10 (rand-int 25)) (+ 50 (rand-int 25))]
-             :min-max     [(+ 10 (rand-int 25)) (+ 50 (rand-int 25))]))
+             :min-max     [(- 50 (rand-int 10)) (+ 0 (rand-int 10))]))
 
 (defn mui-app [{:keys [classes appName] :as props}]
   (let [display (r/atom (js/Date.))
         chart-data (clj->js (map rand-data (range 31)))]
+    (js/console.log chart-data)
     (fn [{:keys [classes appName] :as props}]
       (js/setTimeout #(reset! display (js/Date.)) 1000)
       [:div {:class (.-root classes)}
@@ -48,8 +49,8 @@
           [:> rc/YAxis]
           [:> rc/Tooltip]
           [:> rc/Legend]
-          [:> rc/Bar {:type "monotone" :dataKey "open-close" :fill "darkBlue"}]
-          [:> rc/Bar {:type "monotone" :dataKey "min-max" :fill "orange"}]]]]])))
+          [:> rc/Bar {:type "monotone" :dataKey "open-close" :fill "darkBlue"}
+           [:> rc/ErrorBar {:type "monotone" :dataKey "min-max" :stroke "orange"}]]]]]])))
 
 (defn main []
   ;; fragment
