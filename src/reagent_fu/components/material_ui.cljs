@@ -49,7 +49,7 @@
           [:> rc/YAxis]
           [:> rc/Tooltip]
           [:> rc/Legend]
-          [:> rc/Bar {:type "monotone" :dataKey "open-close" :fill "darkBlue"}
+          [:> rc/Bar {:type "monotone" :dataKey "open-close" :fill "blue"}
            [:> rc/ErrorBar {:type "monotone" :dataKey "min-max" :stroke "orange"}]]]]]])))
 
 (defn main []
