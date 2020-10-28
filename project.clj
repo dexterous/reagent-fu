@@ -6,7 +6,7 @@
   :dependencies [[org.clojure/clojure "1.10.0"]
                  [org.clojure/clojurescript "1.10.520"]
                  [org.clojure/core.async  "0.4.474"]
-                 [reagent "0.8.1"]
+                 [reagent "0.10.0"]
                  [cljsjs/material-ui "3.9.1-0"]
                  [cljsjs/material-ui-icons "3.0.1-0"]
                  [cljsjs/recharts "1.4.2-0"]]

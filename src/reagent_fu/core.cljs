@@ -1,6 +1,7 @@
 (ns reagent-fu.core
   (:require
     [reagent.core :as r]
+    [reagent.dom :as rdom]
     [reagent-fu.components.stateless :as comp-sl]
     [reagent-fu.components.stateful :as comp-sf]
     [reagent-fu.components.timed :as comp-t]
@@ -23,6 +24,6 @@
 
 ; app runner
 (defn ^:export run []
-  (r/render
+  (rdom/render
     [comp-mui/main]
     (.getElementById js/document "app")))
