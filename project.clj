@@ -93,7 +93,8 @@
   ;; https://github.com/bhauman/lein-figwheel/wiki/Using-the-Figwheel-REPL-within-NRepl
   :profiles {:dev {:dependencies [[binaryage/devtools "0.9.9"]
                                   [figwheel-sidecar "0.5.16"]
-                                  [cider/piggieback "0.3.1"]]
+                                  [cider/piggieback "0.3.1"]
+                                  [rebel-readline-cljs "0.1.1-SNAPSHOT"]]
                    ;; need to add dev source path here to get user.clj loaded
                    :source-paths ["src" "dev"]
                    ;; for CIDER
