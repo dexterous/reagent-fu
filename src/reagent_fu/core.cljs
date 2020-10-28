@@ -26,4 +26,5 @@
 (defn ^:export run []
   (rdom/render
     [comp-mui/main]
+    ;[app]
     (.getElementById js/document "app")))
