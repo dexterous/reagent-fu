@@ -9,8 +9,6 @@
 
 (enable-console-print!)
 
-(println "This is new!")
-
 ; compound app
 (defn app []
   (let [cap (r/atom 10)]
