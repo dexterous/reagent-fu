@@ -56,11 +56,8 @@
 
 (defn cell [e]
   (let [e (js->clj e :keywordize-keys true)
-        [open close] (:open-close e)
-        cell-key (:date e)]
-    (with-meta
-      [:> rc/Cell {:key cell-key :fill (if (< open close) "blue" "gray")}]
-      {:key cell-key})))
+        [open close] (:open-close e)]
+      [(r/adapt-react-class rc/Cell) {:key (:date e) :fill (if (< open close) "blue" "gray")}]))
 
 (defn chart [chart-data]
   [:> rc/ComposedChart {:width 1200 :height 300 :layout "horizontal" :barGap 0 :barCategoryGap "15%" :data chart-data}
