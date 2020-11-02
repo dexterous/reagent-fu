@@ -50,7 +50,7 @@
 
 (defn chart [json-data]
   (let [chart-data (stock-data @json-data)]
-    [:> rc/ComposedChart {:width 1200 :height 300 :layout "horizontal" :barGap 0 :barCategoryGap "15%" :data (clj->js chart-data)}
+    [:> rc/ComposedChart {:width 1500 :height 500 :layout "horizontal" :data chart-data}
      [:> rc/CartesianGrid]
      [:> rc/XAxis {:dataKey "date"}]
      [:> rc/YAxis {:yAxisId "price" :domain [#(- (Math/floor %) 5) #(+ (Math/ceil %) 5)]}]
