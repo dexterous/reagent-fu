@@ -48,10 +48,6 @@
                (get-in quotes [:low])
                (get-in quotes [:volume])))))
 
-(defn cell [e]
-  (let [[open close] (:open-close e)]
-    [(r/adapt-react-class rc/Cell) {:key (:date e) :fill (if (< open close) "blue" "gray")}]))
-
 (defn chart [json-data]
   (let [chart-data (stock-data @json-data)]
     [:> rc/ComposedChart {:width 1200 :height 300 :layout "horizontal" :barGap 0 :barCategoryGap "15%" :data (clj->js chart-data)}
@@ -62,7 +58,10 @@
      [:> rc/Tooltip]
      [:> rc/Bar {:dataKey "open-close" :yAxisId "price"}
       [:> rc/ErrorBar {:dataKey "min-max" :stroke "orange"}]
-      (map cell chart-data)]
+      (letfn [(cell [e]
+                (let [[open close] (:open-close e)]
+                  [(r/adapt-react-class rc/Cell) {:key (:date e) :fill (if (< open close) "blue" "gray")}]))]
+        (map cell chart-data))]
      [:> rc/Line {:dataKey "volume" :stroke "green" :type "natural" :dot false :yAxisId "volume"}]]))
 
 (defn mui-app [{:keys [classes appName jsonData] :as props}]
