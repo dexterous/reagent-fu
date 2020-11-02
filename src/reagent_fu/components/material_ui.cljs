@@ -1,13 +1,14 @@
 (ns reagent-fu.components.material-ui
   (:require
     [clojure.string :as s]
-    [reagent.core :as r]
     [goog.object :as gobj]
+    [reagent.core :as r]
+    [reagent.format :as rf]
+    [recharts :as rc]  
     ["@material-ui/core" :as mui]
     ["@material-ui/core/styles" :refer [createMuiTheme withStyles]]
     ["@material-ui/core/colors" :as mui-colors]
-    ["@material-ui/icons" :as mui-icons]
-    [recharts :as rc]))
+    ["@material-ui/icons" :as mui-icons]))
 
 (def custom-theme
   (createMuiTheme
@@ -22,13 +23,7 @@
 (def with-custom-styles (withStyles custom-styles))
 
 (defn day [timestamp]
-  (-> (js/Date. (* timestamp 1000))
-      (.toDateString)
-      (s/split #" ")
-      (->> (rest)
-           (take 2)
-           (reverse)
-           (s/join " "))))
+  (rf/date-format (js/Date. (* timestamp 1000)) "MMM dd"))
 
 (defn stock-data [data]
   (let [result (get-in data [:chart :result 0])
