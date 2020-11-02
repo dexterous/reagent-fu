@@ -29,19 +29,16 @@
   (let [result (get-in data [:chart :result 0])
         quotes (get-in result [:indicators :quote 0])]
     (sort-by :timestamp
-             (map
+             (apply map
                (fn [timestamp open close high low volume]
                  {:timestamp timestamp
                   :date (day timestamp)
                   :open-close [open close]
                   :min-max [(- close low) (- high close)]
                   :volume volume})
-               (get-in result [:timestamp])
-               (get-in quotes [:open])
-               (get-in quotes [:close])
-               (get-in quotes [:high])
-               (get-in quotes [:low])
-               (get-in quotes [:volume])))))
+               (cons (:timestamp result)
+                     (map #(% quotes) [:open :close :high :low :volume]))))))
+
 
 (defn chart [json-data]
   (let [chart-data (stock-data @json-data)]
