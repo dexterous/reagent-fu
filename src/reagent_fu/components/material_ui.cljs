@@ -1,6 +1,5 @@
 (ns reagent-fu.components.material-ui
   (:require
-    [clojure.string :as s]
     [goog.object :as gobj]
     [reagent.core :as r]
     [reagent.format :as rf]
@@ -10,22 +9,25 @@
     ["@material-ui/core/colors" :as mui-colors]
     ["@material-ui/icons" :as mui-icons]))
 
-(def custom-theme
+(def ^:private custom-theme
   (createMuiTheme
     #js {:palette #js {:primary #js {:main (gobj/get (.-blue mui-colors) 100)}}}))
 
-(defn custom-styles [theme]
+(defn- custom-styles [theme]
   #js {:root #js {:flexGrow 1}
        :grow #js {:flexGrow 1 :textAlign "right"}
        :menuButton #js {:marginLeft -12
                         :marginRight 20}})
 
-(def with-custom-styles (withStyles custom-styles))
+(def ^:private with-custom-styles (withStyles custom-styles))
 
-(defn day [timestamp]
+(defn- day [timestamp]
   (rf/date-format (js/Date. (* timestamp 1000)) "MMM dd"))
 
-(defn stock-data [data]
+(defn- current-time []
+  (-> (js/Date.) (rf/date-format "HH:mm:ss")))
+
+(defn- stock-data [data]
   (let [result (get-in data [:chart :result 0])
         quotes (get-in result [:indicators :quote 0])]
     (sort-by :timestamp
@@ -70,9 +72,6 @@
      [:> mui/Grid {:container true :direction "row" :justify "center"}
       [:> mui/Grid {:item true :xs 12}
        [chart jsonData]]]]))
-
-(defn- current-time []
-  (-> (js/Date.) (rf/date-format "HH:mm:ss")))
 
 (defn main []
   (let [json-data (r/atom {})
