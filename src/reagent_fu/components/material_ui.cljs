@@ -79,7 +79,7 @@
     (-> "./data.json"
         (js/fetch)
         (.then (fn [r] (.json r)))
-        (.then (fn [j] (swap! json-data (constantly (js->clj j :keywordize-keys true))))))
+        (.then (fn [j] (reset! json-data (js->clj j :keywordize-keys true)))))
     [:<> ;; fragment 
      [:> mui/CssBaseline]
      [:> mui/MuiThemeProvider {:theme custom-theme}
