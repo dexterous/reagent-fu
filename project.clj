@@ -4,18 +4,17 @@
   :min-lein-version "2.7.1"
 
   :dependencies [[org.clojure/clojure "1.10.0"]
-                 [org.clojure/clojurescript "1.10.520"]
-                 [org.clojure/core.async  "0.4.474"]
+                 [org.clojure/clojurescript "1.10.773"]
                  [reagent "0.10.0"]
                  [reagent-utils "0.3.3"]
                  [cljsjs/material-ui "3.9.1-0"]
                  [cljsjs/material-ui-icons "3.0.1-0"]
                  [cljsjs/recharts "1.4.2-0"]]
 
+  :source-paths ["src"]
+
   :plugins [[lein-figwheel "0.5.16"]
             [lein-cljsbuild "1.1.7" :exclusions [[org.clojure/clojure]]]]
-
-  :source-paths ["src"]
 
   :cljsbuild {:builds
               [{:id "dev"
