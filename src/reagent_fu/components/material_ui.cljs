@@ -56,33 +56,35 @@
         (map cell chart-data))]
      [:> rc/Line {:dataKey "volume" :stroke "green" :type "natural" :dot false :yAxisId "volume"}]]))
 
-(defn mui-app [{:keys [classes appName jsonData] :as props}]
-  (let [display (r/atom (js/Date.))]
-    (fn [{:keys [classes appName] :as props}]
-      (js/setTimeout #(reset! display (js/Date.)) 1000)
-      [:div {:class (.-root classes)}
-       [:> mui/AppBar {:position "static"}
-        [:> mui/Toolbar
-         [:> mui/IconButton {:class (.-menuButton classes) :color "inherit" :aria-label "Menu"}
-          [:> mui-icons/Menu]]
-         [:> mui/Typography {:class (.-title classes) :variant "h5"} (str appName)]
-         [:> mui/Typography {:class (.-grow classes) :variant "h6" :color "inherit"}
-          (-> @display .toTimeString (.split " ") first)]
-         [:> mui/Button {:color "inherit"}
-          [:> mui-icons/Person] "Login"]]]
-       [:> mui/Grid {:container true :direction "row" :justify "center"}
-        [:> mui/Grid {:item true :xs 12}
-         [chart jsonData]]]])))
+(defn mui-app [{:keys [classes appName timeNow jsonData] :as props}]
+  (fn [{:keys [classes appName] :as props}]
+    [:div {:class (.-root classes)}
+     [:> mui/AppBar {:position "static"}
+      [:> mui/Toolbar
+       [:> mui/IconButton {:class (.-menuButton classes) :color "inherit" :aria-label "Menu"}
+        [:> mui-icons/Menu]]
+       [:> mui/Typography {:class (.-title classes) :variant "h5"} (str appName)]
+       [:> mui/Typography {:class (.-grow classes) :variant "h6" :color "inherit"} @timeNow ]
+       [:> mui/Button {:color "inherit"}
+        [:> mui-icons/Person] "Login"]]]
+     [:> mui/Grid {:container true :direction "row" :justify "center"}
+      [:> mui/Grid {:item true :xs 12}
+       [chart jsonData]]]]))
+
+(defn- current-time []
+  (-> (js/Date.) (rf/date-format "HH:mm:ss")))
 
 (defn main []
-  (let [json-data (r/atom {})]
+  (let [json-data (r/atom {})
+        time-now (r/atom (current-time))]
     (-> "./data.json"
         (js/fetch)
         (.then (fn [r] (.json r)))
         (.then (fn [j] (reset! json-data (js->clj j :keywordize-keys true)))))
+    (js/setInterval #(reset! time-now (current-time)) 1000)
     [:<> ;; fragment 
      [:> mui/CssBaseline]
      [:> mui/MuiThemeProvider {:theme custom-theme}
       [:> mui/Grid {:container true :direction "row" :justify "center"}
        [:> mui/Grid {:item true :xs 12}
-        [:> (with-custom-styles (r/reactify-component mui-app)) {:appName "Hello!" :jsonData json-data}]]]]]))
+        [:> (with-custom-styles (r/reactify-component mui-app)) {:appName "Hello!" :timeNow time-now :jsonData json-data}]]]]]))
