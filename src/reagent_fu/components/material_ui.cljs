@@ -11,13 +11,13 @@
 
 (def ^:private custom-theme
   (createMuiTheme
-    #js {:palette #js {:primary #js {:main (gobj/get (.-blue mui-colors) 100)}}}))
+    (clj->js {:palette {:primary {:main (gobj/get (.-blue mui-colors) 100)}}})))
 
 (defn- custom-styles [theme]
-  #js {:root #js {:flexGrow 1}
-       :grow #js {:flexGrow 1 :textAlign "right"}
-       :menuButton #js {:marginLeft -12
-                        :marginRight 20}})
+  (clj->js {:root {:flexGrow 1}
+            :grow {:flexGrow 1 :textAlign "right"}
+            :menuButton {:marginLeft -12
+                         :marginRight 20}}))
 
 (def ^:private with-custom-styles (withStyles custom-styles))
 
