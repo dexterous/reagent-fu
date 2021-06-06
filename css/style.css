@@ -1,0 +1,21 @@
+/* some style */
+
+.bold {
+  font-weight: bold;
+}
+
+.bright {
+  background: lightGray;
+}
+
+.awesome {
+  text-align: center;
+}
+
+.totally {
+  color: red;
+}
+
+#my-p {
+  font-weight: bolder;
+}
